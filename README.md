@@ -27,8 +27,31 @@
 - 거래소 공시
 - 실적 보고서
 
+### 💹 개별 주식/암호화폐 조회
+- 개별 해외 주식 정보 (Yahoo Finance)
+- 개별 국내 주식 정보 (Naver Finance)
+- 개별 암호화폐 정보 (Yahoo Finance)
+
+### 📊 복수 주식/암호화폐 조회 (NEW!)
+- 복수 해외 주식 일괄 조회
+- 복수 국내 주식 일괄 조회
+- 복수 암호화폐 일괄 조회
+
 ### 🪙 암호화폐 데이터
+- 암호화폐 티커 검색 (CoinGecko)
+- 상위 암호화폐 목록 (CoinGecko)
 - Investing.com 암호화폐 시장 데이터
+
+### 🌍 Yahoo Finance 글로벌 데이터
+- 글로벌 주요 지수 (S&P500, 다우존스, 나스닥)
+- 미국 국채 수익률
+- VIX 공포지수
+- 글로벌 원자재 가격 (금, 은, 원유, 구리)
+- 주요 환율 (EUR/USD, GBP/USD 등)
+- 아시아 주요 지수 (니케이225, 항셍, 상하이종합)
+- 유럽 주요 지수 (FTSE100, DAX, CAC40)
+- 섹터별 성과 분석
+- 해외 주식 티커 검색
 
 ## 🏗️ 아키텍처 특징
 
@@ -62,6 +85,18 @@
 # 네이버 금융 검색
 search_domestic_ticker(query)    # 국내 티커 검색
 search_overseas_ticker(query)    # 해외 티커 검색
+search_crypto_ticker(query)      # 암호화폐 티커 검색
+get_top_cryptos(limit)          # 상위 암호화폐 목록
+
+# 개별 주식/암호화폐 조회
+get_stock_quote(symbol)         # 개별 해외 주식 정보
+get_domestic_stock_quote(ticker) # 개별 국내 주식 정보
+get_crypto_quote(symbol)        # 개별 암호화폐 정보
+
+# 복수 주식/암호화폐 조회 (NEW!)
+get_multiple_stock_quotes(symbols)         # 복수 해외 주식 정보
+get_multiple_domestic_stock_quotes(tickers) # 복수 국내 주식 정보
+get_multiple_crypto_quotes(symbols)        # 복수 암호화폐 정보
 
 # FnGuide 분석
 get_stock_snapshot(ticker)       # 종합 스냅샷
@@ -76,8 +111,18 @@ get_competitor_comparison(ticker)# 경쟁사 비교
 get_exchange_disclosures(ticker) # 거래소 공시
 get_earnings_reports(ticker)     # 실적 보고서
 
-# 암호화폐
+# 암호화폐 시장
 get_crypto_data()               # 암호화폐 시장 데이터
+
+# Yahoo Finance 글로벌 데이터
+get_global_indices()            # 글로벌 주요 지수
+get_us_treasury_yields()        # 미국 국채 수익률
+get_vix_data()                  # VIX 공포지수
+get_commodities()               # 글로벌 원자재 가격
+get_forex_majors()              # 주요 환율
+get_asian_indices()             # 아시아 주요 지수
+get_european_indices()          # 유럽 주요 지수
+get_yahoo_sector_performance()  # 섹터별 성과
 
 # 거래소 정보
 get_exchange_data()             # 거래소 데이터
@@ -95,6 +140,11 @@ get_materials_data()            # 원자재 시장 데이터
 GET /search/domestic/{query}     # 국내 티커 검색
 GET /search/overseas/{query}     # 해외 티커 검색
 
+# 복수 주식/암호화폐 조회 (NEW!)
+POST /search/multiple-overseas-quotes   # 복수 해외 주식 정보
+POST /search/multiple-domestic-quotes   # 복수 국내 주식 정보
+POST /search/multiple-crypto-quotes     # 복수 암호화폐 정보
+
 # FnGuide 분석
 GET /fnguide/snapshot/{ticker}   # 종합 스냅샷
 GET /fnguide/overview/{ticker}   # 기업 개요
@@ -111,6 +161,16 @@ GET /fnguide/earnings/{ticker}   # 실적 보고서
 # 암호화폐
 GET /crypto/data                 # 암호화폐 시장 데이터
 
+# Yahoo Finance 글로벌
+GET /yahoo/global-indices        # 글로벌 주요 지수
+GET /yahoo/us-treasury          # 미국 국채 수익률
+GET /yahoo/vix                  # VIX 공포지수
+GET /yahoo/commodities          # 글로벌 원자재 가격
+GET /yahoo/forex                # 주요 환율
+GET /yahoo/asian-indices        # 아시아 주요 지수
+GET /yahoo/european-indices     # 유럽 주요 지수
+GET /yahoo/sectors              # 섹터별 성과
+
 # 거래소
 GET /exchange/data               # 거래소 데이터
 
@@ -123,10 +183,21 @@ GET /materials/data              # 원자재 시장 데이터
 ```python
 from src.core.service_manager import service_manager
 
-# 통합된 서비스 인터페이스
+# 개별 조회
 tickers = service_manager.search_domestic_ticker("삼성전자")
 snapshot = service_manager.get_stock_snapshot("005930")
+stock_quote = service_manager.get_stock_quote("AAPL")
+crypto_quote = service_manager.get_crypto_quote("BTC-USD")
+
+# 복수 조회 (NEW!)
+multiple_stocks = service_manager.get_multiple_stock_quotes(["AAPL", "TSLA", "GOOGL"])
+multiple_domestic = service_manager.get_multiple_domestic_stock_quotes(["005930", "000660"])
+multiple_crypto = service_manager.get_multiple_crypto_quotes(["BTC-USD", "ETH-USD"])
+
+# 시장 데이터
 crypto = service_manager.get_crypto_data()
+global_indices = service_manager.get_global_indices()
+commodities = service_manager.get_commodities()
 ```
 
 ## 🔄 서버 비교
@@ -152,7 +223,12 @@ src/
 │   ├── http_client.py       # HTTP 클라이언트
 │   ├── ticker_parser.py     # 네이버 금융 파서
 │   ├── fnguide_parser.py    # FnGuide 파서
-│   └── crypto_parser.py     # 암호화폐 파서
+│   ├── crypto_parser.py     # 암호화폐 파서
+│   ├── yahoo_parser.py      # Yahoo Finance 파서
+│   ├── market_parser.py     # 시장 지표 파서
+│   ├── interest_parser.py   # 금리/채권 파서
+│   ├── exchange_parser.py   # 환율 파서
+│   └── materials_parser.py  # 원자재 파서
 ├── mcp_tools/              # MCP 도구들
 ├── api_routes/             # HTTP API 라우트들
 ├── mcp_server.py           # MCP 서버

@@ -32,3 +32,42 @@ def search_overseas(query: str) -> Dict[str, Any]:
         }
     except Exception as e:
         return {"error": str(e)}
+
+@router.post("/multiple-overseas-quotes")
+def get_multiple_overseas_quotes(symbols: list) -> Dict[str, Any]:
+    """복수 해외 주식 정보 조회"""
+    try:
+        from core.service_manager import service_manager
+        result = service_manager.get_multiple_stock_quotes(symbols)
+        return {
+            "symbols": symbols,
+            "quotes": result
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+@router.post("/multiple-domestic-quotes")
+def get_multiple_domestic_quotes(tickers: list) -> Dict[str, Any]:
+    """복수 국내 주식 정보 조회"""
+    try:
+        from core.service_manager import service_manager
+        result = service_manager.get_multiple_domestic_stock_quotes(tickers)
+        return {
+            "tickers": tickers,
+            "quotes": result
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+@router.post("/multiple-crypto-quotes")
+def get_multiple_crypto_quotes(symbols: list) -> Dict[str, Any]:
+    """복수 암호화폐 정보 조회"""
+    try:
+        from core.service_manager import service_manager
+        result = service_manager.get_multiple_crypto_quotes(symbols)
+        return {
+            "symbols": symbols,
+            "quotes": result
+        }
+    except Exception as e:
+        return {"error": str(e)}

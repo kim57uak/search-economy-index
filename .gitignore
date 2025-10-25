@@ -38,3 +38,7 @@ Thumbs.db
 
 # Logs
 *.log
+.amazonq/rules/memory-bank/guidelines.md
+.amazonq/rules/memory-bank/product.md
+.amazonq/rules/memory-bank/structure.md
+.amazonq/rules/memory-bank/tech.md

@@ -14,6 +14,7 @@ from api_routes.ticker_routes import router as ticker_router
 from api_routes.fnguide_routes import router as fnguide_router
 from api_routes.materials_routes import materials_router, gold_router
 from api_routes.exchange_routes import router as exchange_router
+from api_routes.yahoo_routes import router as yahoo_router
 
 app = FastAPI(title="Search Economy Index API")
 
@@ -27,6 +28,7 @@ app.include_router(fnguide_router)     # /fnguide/*
 app.include_router(materials_router)   # /materials/*
 app.include_router(gold_router)        # /gold/*
 app.include_router(exchange_router)    # /exchange/*
+app.include_router(yahoo_router)       # /yahoo/*
 
 def main():
     """HTTP API 서버 메인 함수"""

@@ -12,6 +12,7 @@ from mcp_tools.materials_tools import register_materials_tools
 from mcp_tools.exchange_tools import register_exchange_tools
 from mcp_tools.market_tools import register_market_tools
 from mcp_tools.interest_tools import register_interest_tools
+from mcp_tools.yahoo_tools import register_yahoo_tools
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -21,13 +22,14 @@ logger = logging.getLogger(__name__)
 mcp = FastMCP("search-economy-index")
 
 # 도메인별 도구들 등록
-register_ticker_tools(mcp)      # 티커 검색 (2개 함수)
+register_ticker_tools(mcp)      # 티커 검색 (4개 함수)
 register_fnguide_tools(mcp)     # 주식 분석 (11개 함수)
 register_crypto_tools(mcp)      # 암호화폐 (1개 함수)
 register_materials_tools(mcp)   # 원자재/귀금속 (5개 함수)
 register_exchange_tools(mcp)    # 환율 (2개 함수)
 register_market_tools(mcp)      # 시장 지표 (5개 함수)
 register_interest_tools(mcp)    # 금리/채권 (4개 함수)
+register_yahoo_tools(mcp)       # Yahoo Finance 글로벌 (15개 함수)
 
 def main():
     """MCP 서버 메인 함수"""
