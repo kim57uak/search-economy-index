@@ -6,7 +6,7 @@ from core.base_parser import ParserFactory
 from core.interfaces import HttpClientInterface
 from parsers.http_client import HttpClient
 # 파서들을 import하여 팩토리에 등록되도록 함
-from parsers import ticker_parser, fnguide_parser, crypto_parser
+from parsers import ticker_parser, fnguide_parser, crypto_parser, market_parser
 
 
 class ServiceManager:
@@ -97,6 +97,31 @@ class ServiceManager:
         """암호화폐 데이터 조회"""
         parser = self.get_parser('crypto')
         return parser.get_crypto_data()
+    
+    def get_market_indices(self) -> str:
+        """주요 지수 정보 조회"""
+        parser = self.get_parser('market')
+        return parser.get_market_indices()
+    
+    def get_sector_performance(self) -> str:
+        """업종별 등락률 조회"""
+        parser = self.get_parser('market')
+        return parser.get_sector_performance()
+    
+    def get_top_gainers(self) -> str:
+        """상승률 상위 종목 조회"""
+        parser = self.get_parser('market')
+        return parser.get_top_gainers()
+    
+    def get_top_losers(self) -> str:
+        """하락률 상위 종목 조회"""
+        parser = self.get_parser('market')
+        return parser.get_top_losers()
+    
+    def get_volume_leaders(self) -> str:
+        """거래량 상위 종목 조회"""
+        parser = self.get_parser('market')
+        return parser.get_volume_leaders()
 
 
 # 전역 서비스 매니저 인스턴스
