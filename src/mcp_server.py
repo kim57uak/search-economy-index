@@ -5,11 +5,11 @@ import logging
 from mcp.server.fastmcp import FastMCP
 
 # 도메인별 도구 모듈들 import
-from mcp_tools.ticker_tools import register_ticker_tools
-from mcp_tools.fnguide_tools import register_fnguide_tools
-from mcp_tools.crypto_tools import register_crypto_tools
-from mcp_tools.materials_tools import register_materials_tools
-from mcp_tools.exchange_tools import register_exchange_tools
+from .mcp_tools.ticker_tools import register_ticker_tools
+from .mcp_tools.fnguide_tools import register_fnguide_tools
+from .mcp_tools.crypto_tools import register_crypto_tools
+from .mcp_tools.materials_tools import register_materials_tools
+from .mcp_tools.exchange_tools import register_exchange_tools
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
