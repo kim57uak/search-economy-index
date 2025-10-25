@@ -20,7 +20,8 @@ class FnGuideParser(BaseFnGuideParser):
             url = self._build_url(endpoint, ticker)
             tree = self.http_client.fetch_utf8(url)
             if tree is not None:
-                return self._extract_element(tree, '//*[@id="compBody"]') or ""
+                result = self._extract_element(tree, '//*[@id="compBody"]') or ""
+                return self._clean_fnguide_content(result)
             return ""
         except Exception as e:
             logging.error(f"페이지 파싱 실패: {e}")
@@ -32,7 +33,8 @@ class FnGuideParser(BaseFnGuideParser):
             url = self._build_url("SVD_Disclosure.asp", ticker)
             tree = self.http_client.fetch_utf8(url)
             if tree is not None:
-                return self._extract_element(tree, '//*[@id="compBody"]/div[2]') or ""
+                result = self._extract_element(tree, '//*[@id="compBody"]/div[2]') or ""
+                return self._clean_fnguide_content(result)
             return ""
         except Exception as e:
             logging.error(f"거래소공시 파싱 실패: {e}")
@@ -81,6 +83,21 @@ class FnGuideParser(BaseFnGuideParser):
     def get_earnings_reports(self, ticker: str) -> str:
         """실적속보 정보 조회"""
         return self._fetch_page("SVD_ProResultCorp.asp", ticker)
+    
+    def _clean_fnguide_content(self, content: str) -> str:
+        """FnGuide 콘텐츠에서 불필요한 패턴 제거"""
+        import re
+        if not content:
+            return ""
+        
+        # JavaScript 패턴 제거
+        content = re.sub(r'\(javascript:[^)]*\)', '', content)
+        # ASP 파일 URL 패턴 제거
+        content = re.sub(r'\([^)]*\.asp\?[^)]*\)', '', content)
+        # goHompage JavaScript 패턴 제거
+        content = re.sub(r'\(javascript:goHompage\([^)]*\)\)', '', content)
+        
+        return content
 
 
 # 팩토리에 파서 등록
