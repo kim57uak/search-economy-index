@@ -33,7 +33,7 @@ case $choice in
     2)
         echo "=== Simple API 서버 테스트 실행 ==="
         echo "먼저 별도 터미널에서 서버를 시작하세요:"
-        echo "python simple_server.py"
+        echo "python run_api_server.py"
         echo ""
         read -p "서버가 시작되었으면 Enter를 누르세요..."
         python test_simple_server.py
@@ -49,7 +49,7 @@ case $choice in
         echo "Simple API 서버를 백그라운드에서 시작합니다..."
         
         # Simple API 서버를 백그라운드에서 시작
-        python simple_server.py &
+        python run_api_server.py &
         SERVER_PID=$!
         
         # 서버 시작 대기

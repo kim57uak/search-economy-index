@@ -1,54 +1,14 @@
-#!/usr/bin/env python3
 """
-간단한 HTTP 서버로 MCP 기능 테스트
+FnGuide 분석 관련 API 라우트
 """
-import sys
-import os
-from fastapi import FastAPI
+from fastapi import APIRouter
 from typing import Dict, Any
+from parsers.fnguide_parser import FnGuideParser
 
-# src 디렉토리를 Python 경로에 추가
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-
-from ticker_parser import TickerParser
-from fnguide_parser import FnGuideParser
-
-app = FastAPI(title="Search Economy Index API")
-
-# 파서 인스턴스
-ticker_parser = TickerParser()
+router = APIRouter(prefix="/fnguide", tags=["fnguide"])
 fnguide_parser = FnGuideParser()
 
-@app.get("/")
-def root():
-    return {"message": "Search Economy Index API"}
-
-@app.get("/search/domestic/{query}")
-def search_domestic(query: str) -> Dict[str, Any]:
-    try:
-        result = ticker_parser.search_ticker(query)
-        return {
-            "query": query,
-            "domestic_tickers": result["domestic"],
-            "earnings": result["earnings"],
-            "disclosure": result["disclosure"]
-        }
-    except Exception as e:
-        return {"error": str(e)}
-
-@app.get("/search/overseas/{query}")
-def search_overseas(query: str) -> Dict[str, Any]:
-    try:
-        result = ticker_parser.search_ticker(query)
-        return {
-            "query": query,
-            "overseas_tickers": result["overseas"],
-            "other": result["other"]
-        }
-    except Exception as e:
-        return {"error": str(e)}
-
-@app.get("/fnguide/snapshot/{ticker}")
+@router.get("/snapshot/{ticker}")
 def get_snapshot(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_snapshot(ticker)
@@ -56,7 +16,7 @@ def get_snapshot(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/overview/{ticker}")
+@router.get("/overview/{ticker}")
 def get_overview(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_company_overview(ticker)
@@ -64,7 +24,7 @@ def get_overview(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/financials/{ticker}")
+@router.get("/financials/{ticker}")
 def get_financials(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_financial_statement(ticker)
@@ -72,7 +32,7 @@ def get_financials(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/ratios/{ticker}")
+@router.get("/ratios/{ticker}")
 def get_ratios(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_financial_ratio(ticker)
@@ -80,7 +40,7 @@ def get_ratios(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/indicators/{ticker}")
+@router.get("/indicators/{ticker}")
 def get_indicators(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_investment_indicator(ticker)
@@ -88,7 +48,7 @@ def get_indicators(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/consensus/{ticker}")
+@router.get("/consensus/{ticker}")
 def get_consensus(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_consensus(ticker)
@@ -96,7 +56,7 @@ def get_consensus(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/ownership/{ticker}")
+@router.get("/ownership/{ticker}")
 def get_ownership(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_share_analysis(ticker)
@@ -104,7 +64,7 @@ def get_ownership(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/industry/{ticker}")
+@router.get("/industry/{ticker}")
 def get_industry(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_industry_analysis(ticker)
@@ -112,7 +72,7 @@ def get_industry(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/competitors/{ticker}")
+@router.get("/competitors/{ticker}")
 def get_competitors(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_competitor_comparison(ticker)
@@ -120,7 +80,7 @@ def get_competitors(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/disclosures/{ticker}")
+@router.get("/disclosures/{ticker}")
 def get_disclosures(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_disclosure(ticker)
@@ -128,18 +88,10 @@ def get_disclosures(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/fnguide/earnings/{ticker}")
+@router.get("/earnings/{ticker}")
 def get_earnings(ticker: str) -> Dict[str, Any]:
     try:
         result = fnguide_parser.get_earnings_report(ticker)
         return {"ticker": ticker, "earnings_reports": result}
     except Exception as e:
         return {"error": str(e)}
-
-def main():
-    """HTTP API 서버 메인 함수"""
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
-if __name__ == "__main__":
-    main()

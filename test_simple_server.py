@@ -12,7 +12,7 @@ from threading import Thread
 def start_server():
     """백그라운드에서 서버 시작"""
     try:
-        subprocess.run([sys.executable, "simple_server.py"], 
+        subprocess.run([sys.executable, "run_api_server.py"], 
                       cwd=os.path.dirname(__file__))
     except Exception as e:
         print(f"서버 시작 실패: {e}")
@@ -34,7 +34,7 @@ def test_api_endpoints():
     # 서버 상태 확인
     if not test_server_health():
         print("✗ 서버에 연결할 수 없습니다.")
-        print("서버를 먼저 시작하세요: python simple_server.py")
+        print("서버를 먼저 시작하세요: python run_api_server.py")
         return False
     
     print("✓ 서버 연결 성공")
@@ -114,7 +114,7 @@ def main():
     else:
         print("서버가 실행되지 않았습니다.")
         print("\n서버를 시작하려면 다음 명령어를 실행하세요:")
-        print("python simple_server.py")
+        print("python run_api_server.py")
         print("\n그 후 다시 이 테스트를 실행하세요:")
         print("python test_simple_server.py")
     

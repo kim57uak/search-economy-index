@@ -19,7 +19,7 @@ dependencies = [
 
 [project.scripts]
 search-economy-mcp = "run_server:main"
-search-economy-api = "simple_server:main"
+search-economy-api = "run_api_server:main_wrapper"
 
 [project.urls]
 Homepage = "https://github.com/kim57uak/search-economy-index"
