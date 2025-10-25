@@ -11,6 +11,7 @@ from mcp_tools.crypto_tools import register_crypto_tools
 from mcp_tools.materials_tools import register_materials_tools
 from mcp_tools.exchange_tools import register_exchange_tools
 from mcp_tools.market_tools import register_market_tools
+from mcp_tools.interest_tools import register_interest_tools
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -26,6 +27,7 @@ register_crypto_tools(mcp)      # 암호화폐 (1개 함수)
 register_materials_tools(mcp)   # 원자재/귀금속 (5개 함수)
 register_exchange_tools(mcp)    # 환율 (2개 함수)
 register_market_tools(mcp)      # 시장 지표 (5개 함수)
+register_interest_tools(mcp)    # 금리/채권 (4개 함수)
 
 def main():
     """MCP 서버 메인 함수"""
