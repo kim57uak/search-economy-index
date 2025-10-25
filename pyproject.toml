@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
-search-economy-mcp = "run_server:main"
+search-economy-mcp = "src.mcp_server:main"
 search-economy-api = "run_api_server:main_wrapper"
 
 [tool.hatch.build.targets.wheel]

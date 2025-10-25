@@ -25,5 +25,9 @@ register_crypto_tools(mcp)      # 암호화폐 (1개 함수)
 register_materials_tools(mcp)   # 원자재/귀금속 (5개 함수)
 register_exchange_tools(mcp)    # 환율 (2개 함수)
 
-if __name__ == "__main__":
+def main():
+    """MCP 서버 메인 함수"""
     mcp.run()
+
+if __name__ == "__main__":
+    main()
