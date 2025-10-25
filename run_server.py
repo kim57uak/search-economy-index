@@ -10,5 +10,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from mcp_server import mcp
 
-if __name__ == "__main__":
+def main():
+    """MCP 서버 메인 함수"""
     mcp.run()
+
+if __name__ == "__main__":
+    main()

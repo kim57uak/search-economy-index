@@ -136,6 +136,10 @@ def get_earnings(ticker: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-if __name__ == "__main__":
+def main():
+    """HTTP API 서버 메인 함수"""
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+if __name__ == "__main__":
+    main()
