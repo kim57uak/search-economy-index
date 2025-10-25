@@ -21,6 +21,9 @@ dependencies = [
 search-economy-mcp = "run_server:main"
 search-economy-api = "run_api_server:main_wrapper"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
 [project.urls]
 Homepage = "https://github.com/kim57uak/search-economy-index"
 Repository = "https://github.com/kim57uak/search-economy-index"
