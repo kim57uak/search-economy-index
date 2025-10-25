@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "search-economy-index"
+version = "0.1.0"
+description = "한국 주식 경제지표 검색을 위한 MCP 서버"
+authors = [{name = "kim57uak"}]
+dependencies = [
+    "mcp[cli]>=1.19.0",
+    "requests>=2.31.0",
+    "lxml>=4.9.0",
+    "beautifulsoup4>=4.12.0",
+    "fastapi>=0.68.0",
+    "uvicorn>=0.15.0",
+    "markdownify>=0.11.6"
+]
+
+[project.scripts]
+search-economy-mcp = "run_server:main"
+search-economy-api = "simple_server:main"
+
+[project.urls]
+Homepage = "https://github.com/kim57uak/search-economy-index"
+Repository = "https://github.com/kim57uak/search-economy-index"
