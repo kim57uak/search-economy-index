@@ -38,6 +38,27 @@ class ServiceManager:
         parser = self.get_parser('yahoo')
         return parser.search_overseas_ticker(query)
     
+    def search_multiple_domestic_tickers(self, queries: List[str]) -> Dict[str, List[Dict[str, str]]]:
+        """복수 국내 티커 검색"""
+        results = {}
+        for query in queries:
+            results[query] = self.search_domestic_ticker(query)
+        return results
+    
+    def search_multiple_overseas_tickers(self, queries: List[str]) -> Dict[str, List[Dict[str, str]]]:
+        """복수 해외 티커 검색"""
+        results = {}
+        for query in queries:
+            results[query] = self.search_overseas_ticker(query)
+        return results
+    
+    def search_multiple_crypto_tickers(self, queries: List[str]) -> Dict[str, List[Dict[str, str]]]:
+        """복수 암호화폐 티커 검색"""
+        results = {}
+        for query in queries:
+            results[query] = self.search_crypto_ticker(query)
+        return results
+    
     def get_stock_snapshot(self, ticker: str) -> str:
         """주식 스냅샷 조회"""
         parser = self.get_parser('fnguide')
