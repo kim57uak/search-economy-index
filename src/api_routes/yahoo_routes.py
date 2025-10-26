@@ -115,3 +115,13 @@ async def get_crypto_quote(symbol: str):
         return {"data": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/overseas-disclosures/{symbol}")
+async def get_overseas_disclosures(symbol: str):
+    """해외주식 공시정보 조회"""
+    try:
+        result = service_manager.get_overseas_disclosures(symbol)
+        return {"symbol": symbol, "data": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

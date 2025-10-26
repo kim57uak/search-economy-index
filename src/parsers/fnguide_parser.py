@@ -28,17 +28,43 @@ class FnGuideParser(BaseFnGuideParser):
             return ""
 
     def _fetch_disclosure(self, ticker: str) -> str:
-        """거래소공시 페이지를 파싱합니다."""
+        """네이버 금융 공시에서 공시정보 파싱"""
         try:
-            url = self._build_url("SVD_Disclosure.asp", ticker)
-            tree = self.http_client.fetch_utf8(url)
-            if tree is not None:
-                result = self._extract_element(tree, '//*[@id="compBody"]/div[2]') or ""
-                return self._clean_fnguide_content(result)
-            return ""
+            all_content = []
+            
+            # 1페이지와 2페이지 가져오기
+            for page in [1, 2]:
+                url = f"https://finance.naver.com/item/news_notice.naver?code={ticker}&page={page}"
+                tree = self.http_client.fetch_euc_kr(url)
+                
+                if tree is not None:
+                    # 공시 링크들 추출
+                    links = tree.xpath('//a[contains(@href, "news_notice_read.naver")]')
+                    
+                    page_content = [f"=== 페이지 {page} ==="]
+                    
+                    for link in links:
+                        href = link.get('href', '')
+                        title = link.text_content().strip()
+                        
+                        if 'no=' in href and 'code=' in href:
+                            # 전체 URL 생성
+                            if href.startswith('/'):
+                                full_url = f"https://finance.naver.com{href}"
+                            else:
+                                full_url = href
+                            
+                            # 마크다운 링크 형식으로 추가
+                            page_content.append(f"[{title}]({full_url})")
+                    
+                    if len(page_content) > 1:  # 헤더 외에 콘텐츠가 있으면
+                        all_content.extend(page_content)
+            
+            return '\n\n'.join(all_content) if all_content else f"{ticker} 공시 정보를 찾을 수 없습니다."
+            
         except Exception as e:
-            logging.error(f"거래소공시 파싱 실패: {e}")
-            return ""
+            logging.error(f"네이버 금융 공시 파싱 실패: {e}")
+            return f"{ticker} 공시 정보 조회 중 오류가 발생했습니다."
 
     def get_snapshot(self, ticker: str) -> str:
         """스냅샷 정보 조회"""

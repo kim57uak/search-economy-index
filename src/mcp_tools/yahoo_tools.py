@@ -119,3 +119,11 @@ def register_yahoo_tools(mcp):
             return {"multiple_crypto_quotes": result}
         except Exception as e:
             return {"error": str(e)}
+
+    @mcp.tool(description="Get overseas stock disclosure information from Yahoo Finance and SEC filings. Provide stock symbol (e.g., 'AAPL', 'TSLA').")
+    def get_overseas_disclosures(symbol: str) -> Dict[str, Any]:
+        try:
+            result = service_manager.get_overseas_disclosures(symbol)
+            return {"symbol": symbol, "overseas_disclosures": result}
+        except Exception as e:
+            return {"error": str(e)}

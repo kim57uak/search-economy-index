@@ -49,19 +49,19 @@ def register_ticker_tools(mcp):
     #         return {"error": str(e)}
 
     @mcp.tool(
-        description="Get top cryptocurrencies ranked by market cap from CoinGecko."
+        description="Get top cryptocurrencies by market cap. Source: CoinGecko API (must cite). Currency: krw (default) or usd"
     )
-    def get_top_cryptos(limit: int = 20) -> Dict[str, Any]:
+    def get_top_cryptos(limit: int = 20, currency: str = 'krw') -> Dict[str, Any]:
         try:
-            logger.info(f"상위 암호화폐 조회: {limit}개")
-            result = service_manager.get_top_cryptos(limit)
-            return {"limit": limit, "top_cryptos": result}
+            logger.info(f"상위 암호화폐 조회: {limit}개, 통화: {currency}")
+            result = service_manager.get_top_cryptos(limit, currency)
+            return {"limit": limit, "currency": currency, "top_cryptos": result}
         except Exception as e:
             logger.error(f"상위 암호화폐 조회 실패: {e}")
             return {"error": str(e)}
 
     @mcp.tool(
-        description="Get multiple overseas stock quotes at once from Yahoo Finance. Use this when user asks for multiple stocks like 'Apple, Tesla, Microsoft' or 'AAPL, TSLA, MSFT'. More efficient than individual calls. Provide list of symbols like ['AAPL', 'TSLA', 'MSFT']."
+        description="Get multiple overseas stock quotes at once. Provide list like ['AAPL', 'TSLA', 'MSFT']"
     )
     def get_multiple_stock_quotes(symbols: list) -> Dict[str, Any]:
         try:
@@ -73,7 +73,7 @@ def register_ticker_tools(mcp):
             return {"error": str(e)}
 
     @mcp.tool(
-        description="Get multiple Korean domestic stock quotes at once. Use this when user asks for multiple Korean stocks like '삼성전자, SK하이닉스, NAVER' or multiple ticker codes. More efficient than individual calls. Provide list of tickers like ['005930', '000660', '035420']."
+        description="Get multiple Korean stock quotes at once. Provide list like ['005930', '000660', '035420']"
     )
     def get_multiple_domestic_stock_quotes(tickers: list) -> Dict[str, Any]:
         try:
@@ -85,7 +85,7 @@ def register_ticker_tools(mcp):
             return {"error": str(e)}
 
     @mcp.tool(
-        description="Get multiple cryptocurrency quotes at once. Use this when user asks for multiple cryptocurrencies like 'Bitcoin, Ethereum, Cardano' or 'BTC, ETH, ADA'. More efficient than individual calls. Provide list of symbols like ['BTC-USD', 'ETH-USD', 'ADA-USD']."
+        description="Get multiple cryptocurrency quotes at once. Provide list like ['BTC-KRW', 'ETH-KRW', 'ADA-KRW']"
     )
     def get_multiple_crypto_quotes(symbols: list) -> Dict[str, Any]:
         try:
